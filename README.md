@@ -1,1 +1,1 @@
-# nglogger-v2
+# Android App by scala with graalvm
