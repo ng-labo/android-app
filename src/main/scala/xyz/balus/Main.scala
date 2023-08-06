@@ -7,10 +7,11 @@ import com.gluonhq.charm.glisten.application.AppManager.HOME_VIEW
 import com.gluonhq.charm.glisten.control.{AppBar, FloatingActionButton}
 import com.gluonhq.charm.glisten.mvc.View
 import com.gluonhq.charm.glisten.visual.{MaterialDesignIcon, Swatch}
+import com.gluonhq.charm.glisten.control.Dialog
 import javafx.event.ActionEvent
 import javafx.geometry.{Dimension2D, Pos}
 import javafx.scene.Scene
-import javafx.scene.control.Label
+import javafx.scene.control.{Button, Label}
 import javafx.scene.layout.VBox
 import javafx.application.Application
 import javafx.stage.Stage
@@ -43,8 +44,18 @@ final class Main extends Application:
     val root = new View(new VBox(10, label).tap { _.setAlignment(Pos.TOP_CENTER) }) {
       override protected def updateAppBar(appBar: AppBar): Unit = appBar.setTitleText("Android App by scala")
     }.tap { view =>
-      new FloatingActionButton(MaterialDesignIcon.SEARCH.text, (_: ActionEvent) => println("some message from Scala")).tap { _.showOn(view) }
+      new FloatingActionButton(MaterialDesignIcon.SEARCH.text, (_: ActionEvent) => {
+        val dialog = new Dialog()
+        dialog.setTitle(new Label("dialog"))
+        dialog.setContent(new Label("I believe FloatingActionButton was clicked."))
+        val okButton = new Button("OK")
+        okButton.setOnAction((e) => dialog.hide())
+        dialog.getButtons().add(okButton)
+        dialog.showAndWait()
+      }).tap { _.showOn(view) }
     }
+
+
     appManager.addViewFactory(HOME_VIEW, () => root)
 
   override def start(stage: Stage): Unit = appManager.start(stage)
