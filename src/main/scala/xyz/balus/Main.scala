@@ -64,3 +64,4 @@ final class Main extends Application:
     Swatch.AMBER.assignTo(scene)
     scene.getWindow.setWidth(dimensions.getWidth)
     scene.getWindow.setHeight(dimensions.getHeight)
+    scene.getStylesheets().add(Main.getClass.getResource("styles.css").toExternalForm())
